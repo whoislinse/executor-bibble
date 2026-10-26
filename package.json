@@ -1,0 +1,100 @@
+{
+  "name": "executor-bibble",
+  "displayName": "Executor Bibble",
+  "description": "Language server for the Volt Roblox executor environment (sUNC): completions, hover, signatures, diagnostics, outline. Made by linse.",
+  "version": "1.0.0",
+  "publisher": "whoislinse",
+  "author": "linse",
+  "license": "MIT",
+  "homepage": "https://github.com/whoislinse/executor-bibble",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whoislinse/executor-bibble"
+  },
+  "bugs": {
+    "url": "https://github.com/whoislinse/executor-bibble/issues"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onLanguage:bibble"
+  ],
+  "main": "./out/client/src/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "bibble",
+        "aliases": [
+          "Executor Bibble"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "bibble",
+        "scopeName": "source.bibble",
+        "path": "./syntaxes/bibble.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "bibble",
+        "path": "./snippets/bibble.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "executorBibble.apiReference",
+        "title": "Open API Reference",
+        "category": "Executor Bibble"
+      }
+    ],
+    "semanticTokenScopes": [
+      {
+        "language": "bibble",
+        "scopes": {
+          "function": ["entity.name.function"],
+          "method": ["entity.name.function.member"],
+          "macro": ["entity.name.function.preprocessor"],
+          "variable": ["variable.other"],
+          "parameter": ["variable.parameter"],
+          "property": ["variable.other.property", "variable.other.property.lua"],
+          "enumMember": ["constant.other.enum", "constant.other.symbol"],
+          "type": ["entity.name.type", "entity.name.type.lua"],
+          "class": ["entity.name.type.namespace", "support.class.lua"]
+        }
+      }
+    ],
+    "configuration": {
+      "title": "Executor Bibble",
+      "properties": {
+        "executorBibble.diagnostics.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Validate unknown members of Volt libraries."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "node esbuild.mjs && node scripts/GenerateDefinitions.js",
+    "definitions": "node scripts/GenerateDefinitions.js",
+    "watch": "node esbuild.mjs --watch"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1",
+    "vscode-languageserver": "^9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.11"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.5"
+  }
+}

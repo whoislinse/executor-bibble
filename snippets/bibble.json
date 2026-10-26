@@ -1,0 +1,126 @@
+{
+  "hookfunction": {
+    "prefix": "hookfunction",
+    "body": [
+      "local original_${1:target}",
+      "original_${1:target} = hookfunction(${1:target}, function(${2:...})",
+      "\treturn original_${1:target}(${2:...})",
+      "end)"
+    ],
+    "description": "hookfunction preserving the original"
+  },
+  "namecallhook": {
+    "prefix": "namecallhook",
+    "body": [
+      "local oldNamecall; oldNamecall = hookmetamethod(game, \"__namecall\", newcclosure(function(self, ...)",
+      "\tlocal method = getnamecallmethod()",
+      "\treturn oldNamecall(self, ...)",
+      "end))"
+    ],
+    "description": "__namecall hook via hookmetamethod"
+  },
+  "esptext": {
+    "prefix": "esptext",
+    "body": [
+      "local ${1:esp} = Drawing.new(\"Text\")",
+      "${1:esp}.Text = \"${2:name}\"",
+      "${1:esp}.Size = ${3:13}",
+      "${1:esp}.Center = true",
+      "${1:esp}.Outline = true",
+      "${1:esp}.Color = Color3.fromRGB(${4:255}, ${5:255}, ${6:255})",
+      "${1:esp}.Visible = true",
+      "${1:esp}:Remove()"
+    ],
+    "description": "Drawing.new Text skeleton"
+  },
+  "wsconnect": {
+    "prefix": "wsconnect",
+    "body": [
+      "local ${1:ws} = WebSocket.connect(\"${2:wss://}\")",
+      "${1:ws}.OnMessage:Connect(function(message)",
+      "\tprint(\"[ws]\", message)",
+      "end)",
+      "${1:ws}:Send(\"${3:hello}\")"
+    ],
+    "description": "WebSocket connect, listen and send"
+  },
+  "reqhttp": {
+    "prefix": "reqhttp",
+    "body": [
+      "local response = request({",
+      "\tUrl = \"${1:https://}\",",
+      "\tMethod = \"${2:GET}\",",
+      "\tHeaders = { [\"Content-Type\"] = \"application/json\" },",
+      "\tBody = ${3:nil}",
+      "})",
+      "print(response.StatusCode, response.Body)"
+    ],
+    "description": "HTTP request"
+  },
+  "rconsole": {
+    "prefix": "rconsole",
+    "body": [
+      "rconsoleshow()",
+      "rconsolename(\"${1:Bibble}\")",
+      "rconsoleprint(\"${2:ready}\\n\")",
+      "local input = rconsoleinput()",
+      "rconsolehide()"
+    ],
+    "description": "rconsole session"
+  },
+  "fileio": {
+    "prefix": "fileio",
+    "body": [
+      "makefolder(\"${1:bibble}\")",
+      "writefile(\"${1:bibble}/${2:data}.txt\", ${3:\"content\"})",
+      "local content = readfile(\"${1:bibble}/${2:data}.txt\")",
+      "if isfile(\"${1:bibble}/${2:data}.txt\") then delfile(\"${1:bibble}/${2:data}.txt\") end"
+    ],
+    "description": "Filesystem pattern"
+  },
+  "voltsignal": {
+    "prefix": "voltsignal",
+    "body": [
+      "local ${1:sig} = VoltSignal.new()",
+      "${1:sig}:Connect(function(${2:...})",
+      "\tprint(\"fired\")",
+      "end)",
+      "${1:sig}:Fire(${2:...})"
+    ],
+    "description": "VoltSignal create, connect and fire"
+  },
+  "queueotp": {
+    "prefix": "queueotp",
+    "body": ["queueonteleport([[${1:print(\"re-executed after teleport\")}]])"],
+    "description": "queueonteleport"
+  },
+  "othhook": {
+    "prefix": "othhook",
+    "body": [
+      "local original = oth.get_root_callback(${1:target})",
+      "oth.hook(${1:target}, function(${2:...})",
+      "\treturn original(${2:...})",
+      "end)"
+    ],
+    "description": "oth C closure hook"
+  },
+  "espbox": {
+    "prefix": "espbox",
+    "body": [
+      "local ${1:box} = Drawing.new(\"Square\")",
+      "${1:box}.Thickness = 1",
+      "${1:box}.Filled = false",
+      "${1:box}.Color = Color3.fromRGB(${2:255}, ${3:0}, ${4:0})",
+      "${1:box}.Visible = true",
+      "game:GetService(\"RunService\").RenderStepped:Connect(function()",
+      "\tlocal root = ${5:character}:FindFirstChild(\"HumanoidRootPart\")",
+      "\tif not root then ${1:box}.Visible = false return end",
+      "\tlocal point, onScreen = workspace.CurrentCamera:WorldToViewportPoint(root.Position)",
+      "\t${1:box}.Visible = onScreen",
+      "\t${1:box}.Size = Vector2.new(point.Z * ${6:2}, point.Z * ${7:3})",
+      "\t${1:box}.Position = point - ${1:box}.Size / 2",
+      "end)"
+    ],
+    "description": "ESP square with RenderStepped projection"
+  }
+}

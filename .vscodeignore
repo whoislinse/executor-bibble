@@ -1,0 +1,12 @@
+.vscode/**
+.vscode-test/**
+node_modules/**
+client/src/**
+server/src/**
+scripts/**
+tools/**
+examples/**
+out/**/*.map
+out/server/src/library.js
+esbuild.mjs
+.gitignore
